@@ -5,14 +5,16 @@ class PCMaxGreedy:
 
     def solve(self):
         sortedExecTimes = sorted(self.execTimes, reverse=True)
-        processorsTime = [0] * self.procNum
+        processorsData = [[] for i in range(self.procNum)]
 
         for execTime in sortedExecTimes:
+            processorsTime = [sum(processor) for processor in processorsData]
             earliestAvailableProcessor = processorsTime.index(min(processorsTime))
-            processorsTime[earliestAvailableProcessor] += execTime
+            processorsData[earliestAvailableProcessor].append(execTime)
 
-        return max(processorsTime)
+        cmax = max([sum(processor) for processor in processorsData])
+        return processorsData, cmax
 
 x = PCMaxGreedy([6,7,8,10,4,3,2],4)
-cmax = x.solve()
-print(cmax)
+order, cmax = x.solve()
+print(order, cmax)
