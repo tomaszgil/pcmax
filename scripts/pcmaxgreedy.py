@@ -5,7 +5,7 @@ class PCMaxGreedy:
 
     def solve(self):
         sortedExecTimes = sorted(self.execTimes, reverse=True)
-        processorsTime = [0] * 4
+        processorsTime = [0] * self.procNum
 
         for execTime in sortedExecTimes:
             earliestAvailableProcessor = processorsTime.index(min(processorsTime))
