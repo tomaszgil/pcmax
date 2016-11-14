@@ -32,19 +32,18 @@ class PCMaxRotate:
     self.procNum = procNum
  
   def solve(self):
-    times = sorted(self.execTimes, reverse=True)
-    target = float(sum(times)) / self.procNum
+    sortedExecTimes = sorted(self.execTimes, reverse=True)
     processorsData = [[] for i in range(self.procNum)]
     
     rotateCounter = RotateCounter(0, self.procNum - 1)
-    for i in times:
+    for i in sortedExecTimes:
       processorsData[rotateCounter.counter].append(i)
       rotateCounter.increment()
 
-    print processorsData
-    print times, self.procNum, target
+    cmax = max([sum(processor) for processor in processorsData])
+    return processorsData, cmax
 
 
-x = PCMaxRotate([6,7,8,10,4,3,2],4)
-x.solve()
-
+x = PCMaxRotate([6,7,7,10,5,21,52,20,1,2,3],4)
+solution, cmax = x.solve()
+print solution, cmax
