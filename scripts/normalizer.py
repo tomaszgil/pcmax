@@ -4,42 +4,43 @@ from copy import deepcopy
 class Normalizer:
   def __init__(self, processorsData, procNum):
     self.procNum = procNum
+    #using list comprehension for perfomance issues
     self.processorsData = [[singleData,sum(singleData)] for singleData in processorsData]
-    self.bestData = deepcopy(self.processorsData)
+    self.bestData = [[singleData,sum(singleData)] for singleData in processorsData]
 
-  def swap(self, x, n):
+  def swap(self, n):
     while(n):
       data = self.processorsData
-      first, secound = randint(0, len(data)-1), randint(0, len(data)-1)
-      if first != secound:
-        firstEl, secoundEl = data[first], data[secound]
-        diff = firstEl[1] - secoundEl[1]
-        if diff > x:
+      first, second = randint(0, len(data)-1), randint(0, len(data)-1)
+      if first != second:
+        firstEl, secondEl = data[first], data[second]
+        diff = firstEl[1] - secondEl[1]
+        if diff > 0:
           if len(firstEl[0]) > 1:
             el = firstEl[0].pop()
             firstEl[1] -= el
-            secoundEl[1] += el
-            secoundEl[0].append(el) #to_sorted
-            secoundEl[0].sort(reverse = True) 
-            data[first], data[secound] = firstEl, secoundEl
-        elif diff < x:
-          if len(secoundEl[0]) > 1:
-            el = secoundEl[0].pop()
-            secoundEl[1] -= el
+            secondEl[1] += el
+            secondEl[0].append(el) #to_sorted
+            secondEl[0].sort(reverse = True) 
+            data[first], data[second] = firstEl, secondEl
+        elif diff < 0:
+          if len(secondEl[0]) > 1:
+            el = secondEl[0].pop()
+            secondEl[1] -= el
             firstEl[1] += el
             firstEl[0].append(el) #to_sorted
             firstEl[0].sort(reverse = True)
-            data[first], data[secound] = firstEl, secoundEl
+            data[first], data[second] = firstEl, secondEl
         self.processorsData = data
-        #needs best tracking and saving in self.bestData
       n -= 1
-      if max([x[-1] for x in data]) <= max([x[-1] for x in self.bestData]):
+      if max([x[-1] for x in data]) < max([x[-1] for x in self.bestData]):
         self.bestData = deepcopy(data)
-    print data
-    print self.bestData
-      
-x = Normalizer([[28, 5, 3], [21, 6, 2], [20, 7, 1], [10, 7]],4)
+    return self.bestData
 
-x.swap(0, 10000)
+x = Normalizer([[52,62,12],[300,42,200],[300, 100, 210], [41, 40, 13]],4)
 
-#deepcopying need fix
+z = x.swap(10000)
+print z
+
+#deepcopying need fix -> performance and self.processorsData
+#arrays should be mapped using list comprehension
