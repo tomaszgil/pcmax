@@ -14,7 +14,3 @@ class PCMaxGreedy:
 
         cmax = max([sum(processor) for processor in processorsData])
         return processorsData, cmax
-
-x = PCMaxGreedy([6,7,8,10,4,3,2],4)
-order, cmax = x.solve()
-print(order, cmax)
