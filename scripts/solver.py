@@ -20,5 +20,5 @@ cmax = reader.readline()
 
 algorithm = PCMaxGreedy(execTimes, procNum)
 data, cmax = algorithm.solve()
-print("Result: \n")
-print(cmax)
+print "CMax:"
+print cmax
