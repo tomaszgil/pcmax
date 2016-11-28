@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, shuffle
 from pcmaxgreedy import PCMaxGreedy
 
 
@@ -16,25 +16,23 @@ class InstanceGenerator:
         execTimes = [randint(1, self.maxExecTime) for i in range(generatedTaskNum)]
         pcmaxAlgorithm = PCMaxGreedy(execTimes, self.procNum);
         processorsData, self.cmax = pcmaxAlgorithm.solve()
-
         for processor in processorsData:
             remainingTime = sum(processor) - self.cmax
             if remainingTime > 0:
                 processor.append(remainingTime)
             self.tasks += processor
-
+        shuffle(self.tasks)
         self.finalTaskNum = len(self.tasks)
 
     # Saving to file in instances dir.
     # Consecutively: number of processors, number of tasks, execution times, CMax value 
     def save(self, fileName):
-        file = open("../instances/" + fileName, 'w')
+        file = open("../instances/" + fileName + '-' + str(self.cmax), 'w')
 
         file.write(str(self.procNum) + '\n')
         file.write(str(self.finalTaskNum) + '\n')
         for taskTime in self.tasks:
             file.write(str(taskTime) + '\n')
-        file.write('\nCMax: ' + str(self.cmax) + '\n')
 
         file.close()
 
