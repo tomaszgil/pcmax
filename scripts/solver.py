@@ -1,11 +1,7 @@
 from pcmaxgreedy import PCMaxGreedy
 from datastruct import DataStruct
 from instancegenerator import InstanceGenerator
-fileName = "../instances/m50n1000.txt"
-
-#generator = InstanceGenerator(50, 1000, 1000)
-#generator.generateInstance()
-#generator.save("test.txt")
+fileName = "../instances/regular-instance"
 
 reader = DataStruct(fileName)
 procNum = reader.readline()
@@ -15,10 +11,13 @@ execTimes = []
 for _ in range(taskNum):
   execTimes.append(reader.readline())
 
-reader.readline()
-cmax = reader.readline()
+optimumCmax = reader.readline()
 
 algorithm = PCMaxGreedy(execTimes, procNum)
 data, cmax = algorithm.solve()
+
 print "CMax:"
 print cmax
+if optimumCmax:
+    print "Expected:"
+    print optimumCmax
