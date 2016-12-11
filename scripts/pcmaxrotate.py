@@ -4,7 +4,7 @@ class RotateCounter:
     self.y = topBorder
     self.state = 'asc'
     self.counter = bottomBorder
-    
+
   def increment(self):
     if self.state == 'asc':
       self.counter += 1
@@ -21,7 +21,7 @@ class RotateCounter:
 
     elif self.state == 'desc_stop':
       self.state = 'asc'
-    
+
     return(self.counter)
 
 
@@ -30,11 +30,11 @@ class PCMaxRotate:
   def __init__(self, execTimes, procNum):
     self.execTimes = execTimes
     self.procNum = procNum
- 
+
   def solve(self):
     sortedExecTimes = sorted(self.execTimes, reverse=True)
     processorsData = [[] for i in range(self.procNum)]
-    
+
     rotateCounter = RotateCounter(0, self.procNum - 1)
     for i in sortedExecTimes:
       processorsData[rotateCounter.counter].append(i)

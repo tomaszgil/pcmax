@@ -1,7 +1,7 @@
 from pcmaxgreedy import PCMaxGreedy
 from datastruct import DataStruct
 from instancegenerator import InstanceGenerator
-fileName = "../instances/regular-instance"
+fileName = "../instances/optimum-instance"
 
 reader = DataStruct(fileName)
 procNum = reader.readline()
