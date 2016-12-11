@@ -2,8 +2,8 @@ from random import randint
 from copy import deepcopy
 
 class Normalizer:
-  def __init__(self, processorsData, procNum):
-    self.procNum = procNum
+  def __init__(self, processorsData):
+    self.procNum = len(processorsData)
     #using list comprehension for perfomance issues
     self.processorsData = [[singleData,sum(singleData)] for singleData in processorsData]
     self.bestData = [[singleData,sum(singleData)] for singleData in processorsData]
@@ -29,12 +29,9 @@ class Normalizer:
       n -= 1
       if max([x[-1] for x in data]) < max([x[-1] for x in self.bestData]):
         self.bestData = deepcopy(data)
-    return self.bestData
 
-x = Normalizer([[52,62,12],[300,42,200],[300, 100, 210], [41, 40, 13]],4)
-
-z = x.swap(10000)
-print z
+    cmax = max([processor[1] for processor in self.bestData])
+    return self.bestData, cmax
 
 #deepcopying need fix -> performance and self.processorsData
 #arrays should be mapped using list comprehension
