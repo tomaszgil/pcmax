@@ -1,4 +1,4 @@
-from pcmaxgreedy import PCMaxGreedy
+from pcmaxlpt import PCMaxLPT
 from normalizer import Normalizer
 from datastruct import DataStruct
 from instancegenerator import InstanceGenerator
@@ -14,7 +14,7 @@ for _ in range(taskNum):
 
 optimumCmax = reader.readline()
 
-algorithm = PCMaxGreedy(execTimes, procNum)
+algorithm = PCMaxLPT(execTimes, procNum)
 data, cmax = algorithm.solve()
 
 normalizer = Normalizer(data)
