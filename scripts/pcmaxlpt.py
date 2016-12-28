@@ -1,4 +1,4 @@
-class PCMaxGreedy:
+class PCMaxLPT:
     def __init__(self, execTimes, procNum):
         self.execTimes = execTimes
         self.procNum = procNum
