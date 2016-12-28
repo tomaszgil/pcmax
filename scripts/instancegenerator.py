@@ -1,5 +1,5 @@
 from random import randint, shuffle
-from pcmaxgreedy import PCMaxGreedy
+from pcmaxlpt import PCMaxLPT
 
 
 class InstanceGenerator:
@@ -19,7 +19,7 @@ class InstanceGenerator:
     def generateOptimumInstance(self):
         randomTaskNum = self.taskNum - self.procNum
         randomTasks = [randint(1, self.maxExecTime) for i in range(randomTaskNum)]
-        algorithm = PCMaxGreedy(randomTasks, self.procNum)
+        algorithm = PCMaxLPT(randomTasks, self.procNum)
         processorsData, self.cmax = algorithm.solve()
         self.tasks = []
         for processor in processorsData:
