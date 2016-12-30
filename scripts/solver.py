@@ -1,4 +1,6 @@
 from pcmaxlpt import PCMaxLPT
+from pcmaxrotate import PCMaxRotate
+from pcmaxgenetic import PCMaxGenetic
 from normalizer import Normalizer
 from datastruct import DataStruct
 from instancegenerator import InstanceGenerator
@@ -17,8 +19,8 @@ optimumCmax = reader.readline()
 algorithm = PCMaxLPT(execTimes, procNum)
 data, cmax = algorithm.solve()
 
-normalizer = Normalizer(data)
-normalizedData, normalizedCmax = normalizer.swap(1000)
+genetic = PCMaxGenetic(execTimes, procNum)
+normalizedData, normalizedCmax = genetic.solve(10000)
 
 print "CMax:"
 print cmax, normalizedCmax
