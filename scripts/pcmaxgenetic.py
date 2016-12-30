@@ -18,6 +18,8 @@ class PCMaxGenetic:
                 self.swapTasksBetweenProcessors()
                 # todo: swap tasks between more than 2 processors
 
+        return self.processorsData, max(self.processorsTimes)
+
     def findBestGreedySolution(self):
         greedyAlgorithms = []
         greedyAlgorithms.append(PCMaxLPT(self.execTimes, self.procNum))
@@ -33,14 +35,27 @@ class PCMaxGenetic:
         return bestData
 
     def mutate(self):
-        pass
+        print "Mutating..."
+        # mutate longest with random
 
     def swapTasksBetweenProcessors(self):
-        pass
+        idxOfShortest = self.processorsTimes.index(min(self.processorsTimes));
+        idxOfLongest = self.processorsTimes.index(max(self.processorsTimes));
+        processorsConcatenated = self.processorsData[idxOfShortest] + self.processorsData[idxOfLongest];
+        algorithm = PCMaxLPT(processorsConcatenated, 2)
+
+        newData, cmax = algorithm.solve()
+        self.processorsData[idxOfShortest] = newData[0]
+        self.processorsData[idxOfLongest] = newData[1]
+        self.processorsTimes[idxOfShortest] = sum(self.processorsData[idxOfShortest])
+        self.processorsTimes[idxOfLongest] = sum(self.processorsData[idxOfLongest])
+
+        print self.processorsData
 
     def __del__(self):
         pass
 
 
-genetic = PCMaxGenetic([2,5,2,5,2,20,3,4,1,5,2], 4)
-genetic.solve(50)
+genetic = PCMaxGenetic([2,5,2,5,2,10,3,4,1,5,2], 4)
+data, cmax = genetic.solve(10)
+print "Result: ", data, cmax
