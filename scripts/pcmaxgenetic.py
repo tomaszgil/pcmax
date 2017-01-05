@@ -4,6 +4,7 @@ from random import randint
 
 class PCMaxGenetic:
     def __init__(self, execTimes, procNum):
+        self.logFile = open('logfile', 'w')
         self.execTimes = execTimes
         self.procNum = procNum
         self.processorsData = []
@@ -14,6 +15,8 @@ class PCMaxGenetic:
         self.processorsTimes = [sum(processor) for processor in self.processorsData]
         for i in range(repetitions):
             if i % int(1 / mutationsCoeff) == 0:
+                self.logFile.write(str(self.processorsTimes))
+                self.logFile.write("\n")
                 self.mutate()
             else:
                 self.swapTasksBetweenProcessors()
@@ -64,7 +67,3 @@ class PCMaxGenetic:
 
     def __del__(self):
         pass
-
-
-genetic = PCMaxGenetic([2,5,2,5,2,10,3,4,1,5,2], 4)
-data, cmax = genetic.solve(10)

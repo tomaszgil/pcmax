@@ -20,7 +20,7 @@ algorithm = PCMaxLPT(execTimes, procNum)
 data, cmax = algorithm.solve()
 
 genetic = PCMaxGenetic(execTimes, procNum)
-normalizedData, normalizedCmax = genetic.solve(10000)
+normalizedData, normalizedCmax = genetic.solve(1000000)
 
 print "CMax:"
 print cmax, normalizedCmax
