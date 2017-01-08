@@ -27,10 +27,10 @@ for fileName in files:
   execTimes = [reader.readline() for _ in range(taskNum)]
   
   times = []
-  for _ in range(20):
-    genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(10)]
-    data = [genetic.solve(10000, 0.1) for genetic in genetics]
-    times.append(data[1][-1])
+  
+  genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(20)]
+  data = [genetic.solve(10000, 0.1) for genetic in genetics]
+  times.append(data[1][-1])
     
   results['Optimum'] = reader.readline() or 'unknown'
   _, results['LPT'] = PCMaxLPT(execTimes, procNum).solve()
