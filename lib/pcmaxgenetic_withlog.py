@@ -41,29 +41,31 @@ class PCMaxGenetic:
   def mutate(self):
     l = self.processorsTimes.index(max(self.processorsTimes)) # index of longest processor
     r = randint(0, len(self.processorsData)-1) # index of random processor
-    tl = randint(0, len(self.processorsData[l])-1) # index of random task in longest processor
-    tr = randint(0, len(self.processorsData[r])-1) # index of random task in random processor
+    if l != r:
+      tl = randint(0, len(self.processorsData[l])-1) # index of random task in longest processor
+      tr = randint(0, len(self.processorsData[r])-1) # index of random task in random processor
 
-    currentCMax = max(self.processorsTimes)
-    self.processorsData[l][tl], self.processorsData[r][tr] = self.processorsData[r][tr], self.processorsData[l][tl]
-    self.processorsTimes[l] += (self.processorsData[r][tr] - self.processorsData[l][tl])
-    self.processorsTimes[r] += (self.processorsData[l][tl] - self.processorsData[r][tr])
-    if currentCMax < max(self.processorsTimes):
+      currentCMax = max(self.processorsTimes)
       self.processorsData[l][tl], self.processorsData[r][tr] = self.processorsData[r][tr], self.processorsData[l][tl]
-      self.processorsTimes[l] += (self.processorsData[l][tl] - self.processorsData[r][tr])
-      self.processorsTimes[r] += (self.processorsData[r][tr] - self.processorsData[l][tl])
+      self.processorsTimes[l] += (self.processorsData[r][tr] - self.processorsData[l][tl])
+      self.processorsTimes[r] += (self.processorsData[l][tl] - self.processorsData[r][tr])
+      if currentCMax < max(self.processorsTimes):
+        self.processorsData[l][tl], self.processorsData[r][tr] = self.processorsData[r][tr], self.processorsData[l][tl]
+        self.processorsTimes[l] += (self.processorsData[l][tl] - self.processorsData[r][tr])
+        self.processorsTimes[r] += (self.processorsData[r][tr] - self.processorsData[l][tl])
 
   def swapTasksBetweenProcessors(self):
     s = self.processorsTimes.index(min(self.processorsTimes)) # index of shortest processor
     l = self.processorsTimes.index(max(self.processorsTimes)) # index of longest processor
-    processorsConcatenated = self.processorsData[s] + self.processorsData[l]
-    algorithm = PCMaxLPT(processorsConcatenated, 2)
-
-    newData, cmax = algorithm.solve()
-    self.processorsData[s] = newData[0]
-    self.processorsData[l] = newData[1]
-    self.processorsTimes[s] = sum(self.processorsData[s])
-    self.processorsTimes[l] = sum(self.processorsData[l])
+    
+    if s != l:
+      processorsConcatenated = self.processorsData[s] + self.processorsData[l]
+      algorithm = PCMaxLPT(processorsConcatenated, 2)
+      newData, cmax = algorithm.solve()
+      self.processorsData[s] = newData[0]
+      self.processorsData[l] = newData[1]
+      self.processorsTimes[s] = sum(self.processorsData[s])
+      self.processorsTimes[l] = sum(self.processorsData[l])
 
   def __del__(self):
     pass
