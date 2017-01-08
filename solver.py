@@ -24,7 +24,7 @@ for fileName in files:
   times = []
   for _ in range(10):
     genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(10)]
-    data = [genetic.solve(20000) for genetic in genetics]
+    data = [genetic.solve(1000, 0.1) for genetic in genetics]
     times.append(data[1][-1])
     
   results['Optimum'] = reader.readline() or 'unknown'
@@ -32,4 +32,4 @@ for fileName in files:
   _, results['Rotate'] = PCMaxRotate(execTimes, procNum).solve()
   results['Genetic'] = min(times)
   
-  print fileName + ': ', results
+  print fileName + ":\n      ", results

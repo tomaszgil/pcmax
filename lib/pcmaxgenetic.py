@@ -15,6 +15,7 @@ class PCMaxGenetic:
     for i in range(repetitions):
       if i % int(1 / mutationsCoeff) == 0:
         self.mutate()
+      else:
         self.swapTasksBetweenProcessors()
 
     return self.processorsData, max(self.processorsTimes)
