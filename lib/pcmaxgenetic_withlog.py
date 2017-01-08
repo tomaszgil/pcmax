@@ -14,10 +14,11 @@ class PCMaxGenetic:
     self.processorsData = self.findBestGreedySolution()
     self.processorsTimes = [sum(processor) for processor in self.processorsData]
     for i in range(repetitions):
+      self.logFile.write(str(self.processorsTimes))
+      self.logFile.write("\n")
       if i % int(1 / mutationsCoeff) == 0:
-        self.logFile.write(str(self.processorsTimes))
-        self.logFile.write("\n")
         self.mutate()
+      else:
         self.swapTasksBetweenProcessors()
         # todo: swap tasks between more than 2 processors
 
