@@ -1,11 +1,16 @@
-import sys
-sys.path.append('lib')
+from sys import path
+from time import time
+path.append('lib')
 
+#import custom classes
 from pcmaxlpt import PCMaxLPT
 from pcmaxrotate import PCMaxRotate
 from pcmaxgenetic import PCMaxGenetic
 from filereader import FileReader
 from instancegenerator import InstanceGenerator
+
+
+startTime = time()
 
 files = [
   'instances/m50n1000.txt', 'instances/m25.txt', 'instances/regular-instance',
@@ -24,7 +29,7 @@ for fileName in files:
   times = []
   for _ in range(10):
     genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(10)]
-    data = [genetic.solve(1000, 0.1) for genetic in genetics]
+    data = [genetic.solve(10000, 0.1) for genetic in genetics]
     times.append(data[1][-1])
     
   results['Optimum'] = reader.readline() or 'unknown'
@@ -33,3 +38,7 @@ for fileName in files:
   results['Genetic'] = min(times)
   
   print fileName + ":\n      ", results
+
+endTime = time()
+
+print 'execTime: ' + str(endTime - startTime)

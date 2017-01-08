@@ -43,12 +43,10 @@ class PCMaxGenetic:
 
       currentCMax = max(self.processorsTimes)
       self.processorsData[l][tl], self.processorsData[r][tr] = self.processorsData[r][tr], self.processorsData[l][tl]
-      self.processorsTimes[l] += (self.processorsData[r][tr] - self.processorsData[l][tl])
-      self.processorsTimes[r] += (self.processorsData[l][tl] - self.processorsData[r][tr])
+      self.processorsTimes = [sum(x) for x in self.processorsData]
       if currentCMax < max(self.processorsTimes):
         self.processorsData[l][tl], self.processorsData[r][tr] = self.processorsData[r][tr], self.processorsData[l][tl]
-        self.processorsTimes[l] += (self.processorsData[l][tl] - self.processorsData[r][tr])
-        self.processorsTimes[r] += (self.processorsData[r][tr] - self.processorsData[l][tl])
+        self.processorsTimes = [sum(x) for x in self.processorsData]
 
   def swapTasksBetweenProcessors(self):
     s = self.processorsTimes.index(min(self.processorsTimes)) # index of shortest processor
