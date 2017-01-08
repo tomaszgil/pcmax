@@ -28,10 +28,9 @@ for fileName in files:
   
   times = []
   
-  genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(20)]
-  data = [genetic.solve(10000, 0.1) for genetic in genetics]
-  times.append(data[1][-1])
-    
+  genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(3)]
+  times = [genetic.solve(100000, 0.1) for genetic in genetics]
+
   results['Optimum'] = reader.readline() or 'unknown'
   _, results['LPT'] = PCMaxLPT(execTimes, procNum).solve()
   _, results['Rotate'] = PCMaxRotate(execTimes, procNum).solve()

@@ -17,8 +17,11 @@ class PCMaxGenetic:
         self.mutate()
       else:
         self.swapTasksBetweenProcessors()
-
-    return self.processorsData, max(self.processorsTimes)
+    
+    # this is out of convension, should be change in script to tagged version
+    return max(self.processorsTimes)
+    # this is proper version:
+    # return self.processorsData, max(self.processorsTimes)
 
   def findBestGreedySolution(self):
     greedyAlgorithms = []
