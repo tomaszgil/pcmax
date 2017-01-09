@@ -17,11 +17,8 @@ class PCMaxGenetic:
         self.mutate()
       else:
         self.swapTasksBetweenProcessors()
-    
-    # this is out of convension, should be change in script to tagged version
-    return max(self.processorsTimes)
-    # this is proper version:
-    # return self.processorsData, max(self.processorsTimes)
+
+    return self.processorsData, max(self.processorsTimes)
 
   def findBestGreedySolution(self):
     greedyAlgorithms = []
@@ -39,10 +36,10 @@ class PCMaxGenetic:
 
   def mutate(self):
     l = self.processorsTimes.index(max(self.processorsTimes)) # index of longest processor
-    r = randint(0, len(self.processorsData)-1) # index of random processor
+    r = randint(0, len(self.processorsData) - 1) # index of random processor
     if l != r:
-      tl = randint(0, len(self.processorsData[l])-1) # index of random task in longest processor
-      tr = randint(0, len(self.processorsData[r])-1) # index of random task in random processor
+      tl = randint(0, len(self.processorsData[l]) - 1) # index of random task in longest processor
+      tr = randint(0, len(self.processorsData[r]) - 1) # index of random task in random processor
 
       currentCMax = max(self.processorsTimes)
       self.processorsData[l][tl], self.processorsData[r][tr] = self.processorsData[r][tr], self.processorsData[l][tl]
@@ -54,11 +51,26 @@ class PCMaxGenetic:
   def swapTasksBetweenProcessors(self):
     s = self.processorsTimes.index(min(self.processorsTimes)) # index of shortest processor
     l = self.processorsTimes.index(max(self.processorsTimes)) # index of longest processor
-
+    
     if s != l:
       processorsConcatenated = self.processorsData[s] + self.processorsData[l]
       algorithm = PCMaxLPT(processorsConcatenated, 2)
       newData, cmax = algorithm.solve()
+      
+      if self.processorsData[s] == newData[0] or self.processorsData[l] == newData[1]:
+        r = randint(0, self.procNum - 1)
+        if r != l and r != s:
+          processorsConcatenated = self.processorsData[s] + self.processorsData[l] + self.processorsData[r]
+          algorithm = PCMaxLPT(processorsConcatenated, 3)
+          newData, cmax = algorithm.solve()
+          
+          self.processorsData[s] = newData[0]
+          self.processorsData[l] = newData[1]
+          self.processorsData[r] = newData[2]
+          self.processorsTimes[s] = sum(self.processorsData[s])
+          self.processorsTimes[l] = sum(self.processorsData[l])
+          self.processorsTimes[r] = sum(self.processorsData[r])
+      
       self.processorsData[s] = newData[0]
       self.processorsData[l] = newData[1]
       self.processorsTimes[s] = sum(self.processorsData[s])

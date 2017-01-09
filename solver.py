@@ -17,6 +17,7 @@ files = [
   'instances/instance.txt', 'instances/test.txt', 'instances/optimum-instance',
   'instances/m50.txt'
   ]
+# files = ['instances/m50n1000.txt', 'instances/m25.txt', 'instances/m50.txt']
 
 for fileName in files:
   results = {}
@@ -28,9 +29,12 @@ for fileName in files:
   
   times = []
   
-  genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(3)]
-  times = [genetic.solve(100000, 0.1) for genetic in genetics]
-
+  genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(10)]
+  for genetic in genetics:
+    data, cmax = genetic.solve(100000, 0.1)
+    times.append(cmax)
+  print times
+  
   results['Optimum'] = reader.readline() or 'unknown'
   _, results['LPT'] = PCMaxLPT(execTimes, procNum).solve()
   _, results['Rotate'] = PCMaxRotate(execTimes, procNum).solve()
