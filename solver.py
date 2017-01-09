@@ -29,7 +29,7 @@ for fileName in files:
   
   times = []
   
-  genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(10)]
+  genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(5)]
   for genetic in genetics:
     data, cmax = genetic.solve(100000, 0.1)
     times.append(cmax)
