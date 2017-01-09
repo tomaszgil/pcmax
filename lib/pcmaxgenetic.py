@@ -19,6 +19,7 @@ class PCMaxGenetic:
         try:
           self.swapTasksBetweenProcessors()
         except Exception:
+          print "Optimum found!"
           break
 
     return self.processorsData, max(self.processorsTimes)
@@ -56,31 +57,35 @@ class PCMaxGenetic:
     l = self.processorsTimes.index(max(self.processorsTimes)) # index of longest processor
 
     if self.processorsTimes[s] == self.processorsTimes[l]:
-      raise Exception
+      raise Exception()
 
     if l != s:
       processorsConcatenated = self.processorsData[s] + self.processorsData[l]
       algorithm = PCMaxLPT(processorsConcatenated, 2)
       newData, cmax = algorithm.solve()
 
-      if self.processorsData[s] == newData[0] or self.processorsData[l] == newData[1]:
-        r = randint(0, self.procNum - 1)
-        if r != l and r != s:
-          processorsConcatenated = self.processorsData[s] + self.processorsData[l] + self.processorsData[r]
-          algorithm = PCMaxLPT(processorsConcatenated, 3)
-          newData, cmax = algorithm.solve()
+      # need logic check
+      # if self.processorsData[s] == newData[0] or self.processorsData[l] == newData[1]:
+      #   r = randint(0, self.procNum - 1)
+      #   if r != l and r != s:
+      #     processorsConcatenated = self.processorsData[s] + self.processorsData[l] + self.processorsData[r]
+      #     algorithm = PCMaxLPT(processorsConcatenated, 3)
+      #     newData, newCmax = algorithm.solve()
 
-          self.processorsData[s] = newData[0]
-          self.processorsData[l] = newData[1]
-          self.processorsData[r] = newData[2]
-          self.processorsTimes[s] = sum(self.processorsData[s])
-          self.processorsTimes[l] = sum(self.processorsData[l])
-          self.processorsTimes[r] = sum(self.processorsData[r])
-      else :
-        self.processorsData[s] = newData[0]
-        self.processorsData[l] = newData[1]
-        self.processorsTimes[s] = sum(self.processorsData[s])
-        self.processorsTimes[l] = sum(self.processorsData[l])
+      #     if newCmax <= cmax:
+      #       self.processorsData[s] = newData[0]
+      #       self.processorsData[l] = newData[1]
+      #       self.processorsData[r] = newData[2]
+      #       self.processorsTimes[s] = sum(self.processorsData[s])
+      #       self.processorsTimes[l] = sum(self.processorsData[l])
+      #       self.processorsTimes[r] = sum(self.processorsData[r])
+
+      self.processorsData[s] = newData[0]
+      self.processorsData[l] = newData[1]
+      self.processorsTimes[s] = sum(self.processorsData[s])
+      self.processorsTimes[l] = sum(self.processorsData[l])
+
+
 
   def __del__(self):
     pass
