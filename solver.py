@@ -5,8 +5,7 @@ path.append('lib')
 #import custom classes
 from pcmaxlpt import PCMaxLPT
 from pcmaxrotate import PCMaxRotate
-from pcmaxgenetic import PCMaxGenetic
-from pcmaxgenetic import OptimumFoundException
+from pcmaxgenetic import PCMaxGenetic, OptimumFoundException
 from filereader import FileReader
 from instancegenerator import InstanceGenerator
 
@@ -30,11 +29,12 @@ for fileName in files:
 
   times = []
 
-  genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(5)]
+  genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(10)]
   for genetic in genetics:
     try:
       data, cmax = genetic.solve(100000, 0.1)
       times.append(cmax)
+      print cmax
     except OptimumFoundException, e:
       times.append(e.cmax)
       break

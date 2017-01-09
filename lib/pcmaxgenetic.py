@@ -10,23 +10,22 @@ class PCMaxGenetic:
   def __init__(self, execTimes, procNum):
     self.execTimes = execTimes
     self.procNum = procNum
-    self.processorsData = []
-    self.processorsTimes = []
+    self.procData = []
+    self.procTimes = []
 
   def solve(self, repetitions, mutationsCoeff = 0.1):
-    self.processorsData = self.findBestGreedySolution()
-    self.processorsTimes = [sum(processor) for processor in self.processorsData]
+    self.procData = self.findBestGreedySolution()
+    self.procTimes = [sum(proc) for proc in self.procData]
     for i in range(repetitions):
       if i % int(1 / mutationsCoeff) == 0:
         self.mutate()
       else:
         try:
-          self.swapTasksBetweenProcessors()
+          self.swapTasksBetweenProc()
         except OptimumFoundException:
           raise
-          break
 
-    return self.processorsData, max(self.processorsTimes)
+    return self.procData, max(self.procTimes)
 
   def findBestGreedySolution(self):
     greedyAlgorithms = []
@@ -43,51 +42,52 @@ class PCMaxGenetic:
     return bestData
 
   def mutate(self):
-    l = self.processorsTimes.index(max(self.processorsTimes)) # index of longest processor
-    r = randint(0, len(self.processorsData) - 1) # index of random processor
+    l = self.procTimes.index(max(self.procTimes)) # index of longest proc
+    r = randint(0, len(self.procData) - 1) # index of random proc
     if l != r:
-      tl = randint(0, len(self.processorsData[l]) - 1) # index of random task in longest processor
-      tr = randint(0, len(self.processorsData[r]) - 1) # index of random task in random processor
+      tl = randint(0, len(self.procData[l]) - 1) # index of random task in longest proc
+      tr = randint(0, len(self.procData[r]) - 1) # index of random task in random proc
 
-      currentCMax = max(self.processorsTimes)
-      self.processorsData[l][tl], self.processorsData[r][tr] = self.processorsData[r][tr], self.processorsData[l][tl]
-      self.processorsTimes = [sum(x) for x in self.processorsData]
-      if currentCMax < max(self.processorsTimes):
-        self.processorsData[l][tl], self.processorsData[r][tr] = self.processorsData[r][tr], self.processorsData[l][tl]
-        self.processorsTimes = [sum(x) for x in self.processorsData]
+      currentCMax = max(self.procTimes)
+      self.procData[l][tl], self.procData[r][tr] = self.procData[r][tr], self.procData[l][tl]
+      self.procTimes = [sum(x) for x in self.procData]
+      if currentCMax < max(self.procTimes):
+        self.procData[l][tl], self.procData[r][tr] = self.procData[r][tr], self.procData[l][tl]
+        self.procTimes = [sum(x) for x in self.procData]
 
-  def swapTasksBetweenProcessors(self):
-    s = self.processorsTimes.index(min(self.processorsTimes)) # index of shortest processor
-    l = self.processorsTimes.index(max(self.processorsTimes)) # index of longest processor
+  def swapTasksBetweenProc(self):
+    s = self.procTimes.index(min(self.procTimes)) # index of shortest proc
+    l = self.procTimes.index(max(self.procTimes)) # index of longest proc
 
-    if self.processorsTimes[s] == self.processorsTimes[l]:
-      raise OptimumFoundException(self.processorsTimes[l])
+    if self.procTimes[l] - self.procTimes[s] <= 1:
+      raise OptimumFoundException(self.procTimes[l])
+    
+    # try to improve score with LPT for 2 proc
+    procConcatenated = self.procData[s] + self.procData[l]
+    algorithm = PCMaxLPT(procConcatenated, 2)
+    newData, cmax = algorithm.solve()
 
-    if l != s:
-      processorsConcatenated = self.processorsData[s] + self.processorsData[l]
-      algorithm = PCMaxLPT(processorsConcatenated, 2)
-      newData, cmax = algorithm.solve()
-
-      # need logic check
-      # if self.processorsData[s] == newData[0] or self.processorsData[l] == newData[1]:
-      #   r = randint(0, self.procNum - 1)
-      #   if r != l and r != s:
-      #     processorsConcatenated = self.processorsData[s] + self.processorsData[l] + self.processorsData[r]
-      #     algorithm = PCMaxLPT(processorsConcatenated, 3)
-      #     newData, newCmax = algorithm.solve()
-
-      #     if newCmax <= cmax:
-      #       self.processorsData[s] = newData[0]
-      #       self.processorsData[l] = newData[1]
-      #       self.processorsData[r] = newData[2]
-      #       self.processorsTimes[s] = sum(self.processorsData[s])
-      #       self.processorsTimes[l] = sum(self.processorsData[l])
-      #       self.processorsTimes[r] = sum(self.processorsData[r])
-
-      self.processorsData[s] = newData[0]
-      self.processorsData[l] = newData[1]
-      self.processorsTimes[s] = sum(self.processorsData[s])
-      self.processorsTimes[l] = sum(self.processorsData[l])
+    # if sortest and longest cannot be improved by LPT, try LPT for 3 proc
+    if self.procData[s] == newData[0] or self.procData[l] == newData[1]:
+      r = randint(0, self.procNum - 1)
+      if r != l and r != s:
+        procConcatenated = self.procData[s] + self.procData[l] + self.procData[r]
+        algorithm = PCMaxLPT(procConcatenated, 3)
+        newData, newCmax = algorithm.solve()
+        
+        # check if cmax is better
+        if newCmax <= cmax:
+          self.procData[s] = newData[0]
+          self.procData[l] = newData[1]
+          self.procData[r] = newData[2]
+          self.procTimes[s] = sum(self.procData[s])
+          self.procTimes[l] = sum(self.procData[l])
+          self.procTimes[r] = sum(self.procData[r])
+    else:
+      self.procData[s] = newData[0]
+      self.procData[l] = newData[1]
+      self.procTimes[s] = sum(self.procData[s])
+      self.procTimes[l] = sum(self.procData[l])
 
 
 
