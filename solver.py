@@ -6,40 +6,46 @@ path.append('lib')
 from pcmaxlpt import PCMaxLPT
 from pcmaxrotate import PCMaxRotate
 from pcmaxgenetic import PCMaxGenetic
+from pcmaxgenetic import OptimumFoundException
 from filereader import FileReader
 from instancegenerator import InstanceGenerator
 
 
 startTime = time()
 
-files = [
-  'instances/m50n1000.txt', 'instances/m25.txt', 'instances/regular-instance',
-  'instances/instance.txt', 'instances/test.txt', 'instances/optimum-instance',
-  'instances/m50.txt'
-  ]
-# files = ['instances/m50n1000.txt', 'instances/m25.txt', 'instances/m50.txt']
+# files = [
+#   'instances/m50n1000.txt', 'instances/m25.txt', 'instances/regular-instance',
+#   'instances/instance.txt', 'instances/test.txt', 'instances/optimum-instance',
+#   'instances/m50.txt'
+#   ]
+files = ['instances/m50n1000.txt', 'instances/m25.txt', 'instances/m50.txt']
 
 for fileName in files:
   results = {}
   reader = FileReader(fileName)
   procNum = reader.readline()
   taskNum = reader.readline()
-  
+
   execTimes = [reader.readline() for _ in range(taskNum)]
-  
+
   times = []
-  
+
   genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(5)]
   for genetic in genetics:
-    data, cmax = genetic.solve(100000, 0.1)
-    times.append(cmax)
+    try:
+      data, cmax = genetic.solve(100000, 0.1)
+      times.append(cmax)
+    except OptimumFoundException, e:
+      times.append(e.cmax)
+      break
+
   print times
-  
+
   results['Optimum'] = reader.readline() or 'unknown'
   _, results['LPT'] = PCMaxLPT(execTimes, procNum).solve()
   _, results['Rotate'] = PCMaxRotate(execTimes, procNum).solve()
   results['Genetic'] = min(times)
-  
+
   print fileName + ":\n      ", results
 
 endTime = time()

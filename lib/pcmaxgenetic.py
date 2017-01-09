@@ -2,6 +2,10 @@ from pcmaxlpt import PCMaxLPT
 from pcmaxrotate import PCMaxRotate
 from random import randint
 
+class OptimumFoundException(Exception):
+  def __init__(self, result):
+    self.cmax = result
+
 class PCMaxGenetic:
   def __init__(self, execTimes, procNum):
     self.execTimes = execTimes
@@ -18,8 +22,8 @@ class PCMaxGenetic:
       else:
         try:
           self.swapTasksBetweenProcessors()
-        except Exception:
-          print "Optimum found!"
+        except OptimumFoundException:
+          raise
           break
 
     return self.processorsData, max(self.processorsTimes)
@@ -57,7 +61,7 @@ class PCMaxGenetic:
     l = self.processorsTimes.index(max(self.processorsTimes)) # index of longest processor
 
     if self.processorsTimes[s] == self.processorsTimes[l]:
-      raise Exception()
+      raise OptimumFoundException(self.processorsTimes[l])
 
     if l != s:
       processorsConcatenated = self.processorsData[s] + self.processorsData[l]
