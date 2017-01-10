@@ -33,7 +33,7 @@ class InstanceGenerator:
   # Saving to file in instances directory
   # Consecutively: number of processors, number of tasks, execution times, CMax value if known
   def save(self, fileName):
-    file = open("../instances/" + fileName, 'w')
+    file = open("instances/" + fileName, 'w')
     file.write(str(self.procNum) + '\n')
     file.write(str(self.taskNum) + '\n')
     for taskTime in self.tasks:
