@@ -5,6 +5,8 @@ from pcmaxgenetic import PCMaxGenetic, OptimumFoundException
 from filereader import FileReader
 from instancegenerator import InstanceGenerator
 
+from numpy import median
+
 class GeneticSolver:
   def __init__(self, data):
     self.fileName = data['fileName']
@@ -27,7 +29,6 @@ class GeneticSolver:
       try:
         _, cmax = genetic.solve(self.iterNum, self.mutationsCoeff)
         times.append(cmax)
-        print times
       except OptimumFoundException, e:
         times.append(e.cmax)
         break
@@ -36,6 +37,10 @@ class GeneticSolver:
     _, results['LPT'] = PCMaxLPT(execTimes, procNum).solve()
     _, results['Rotate'] = PCMaxRotate(execTimes, procNum).solve()
     results['Genetic'] = min(times)
+    results['GeneticAvg'] = sum(times)/len(times)
+    results['GeneticMedian'] = median(times)
+    results['GeneticIter'] = len(times)
+    
 
     return results
     
