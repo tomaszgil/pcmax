@@ -4,12 +4,15 @@ from pcmaxlpt import PCMaxLPT
 
 class InstanceGenerator:
   def __init__(self, procNum, taskNum, minExecTime, maxExecTime):
+    self.setParameters(procNum, taskNum, minExecTime, maxExecTime)
+    self.tasks = []
+    self.cmax = 0
+
+  def setParameters(self, procNum, taskNum, minExecTime, maxExecTime):
     self.procNum = procNum
     self.taskNum = taskNum
     self.minExecTime = minExecTime if minExecTime > 0 else 1
     self.maxExecTime = maxExecTime if maxExecTime > 0 else 1
-    self.tasks = []
-    self.cmax = 0
 
   def generateInstance(self):
     self.tasks = [randint(1, self.maxExecTime) for _ in range(self.taskNum)]
