@@ -1,13 +1,10 @@
+#append path to access lib classes
 from sys import path
 from time import time
 path.append('lib')
 
-#import custom classes
-from pcmaxlpt import PCMaxLPT
-from pcmaxrotate import PCMaxRotate
-from pcmaxgenetic import PCMaxGenetic, OptimumFoundException
-from filereader import FileReader
-from instancegenerator import InstanceGenerator
+#import genetic solution wrapper
+from geneticsolver import GeneticSolver
 
 
 startTime = time()
@@ -20,32 +17,12 @@ startTime = time()
 files = ['instances/m50n1000.txt', 'instances/m25.txt', 'instances/m50.txt']
 
 for fileName in files:
-  results = {}
-  reader = FileReader(fileName)
-  procNum = reader.readline()
-  taskNum = reader.readline()
-
-  execTimes = [reader.readline() for _ in range(taskNum)]
-
-  times = []
-
-  genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(10)]
-  for genetic in genetics:
-    try:
-      data, cmax = genetic.solve(100000, 0.1)
-      times.append(cmax)
-      print cmax
-    except OptimumFoundException, e:
-      times.append(e.cmax)
-      break
-
-  print times
-
-  results['Optimum'] = reader.readline() or 'unknown'
-  _, results['LPT'] = PCMaxLPT(execTimes, procNum).solve()
-  _, results['Rotate'] = PCMaxRotate(execTimes, procNum).solve()
-  results['Genetic'] = min(times)
-
+  results = GeneticSolver({
+    'fileName': fileName,
+    'instNum': 10,
+    'iterNum': 100000,
+    'mutationsCoeff': 0.1
+  }).solve()
   print fileName + ":\n      ", results
 
 endTime = time()
