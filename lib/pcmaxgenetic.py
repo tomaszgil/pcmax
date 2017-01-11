@@ -13,13 +13,13 @@ class PCMaxGenetic:
     self.procData = []
     self.procTimes = []
 
-  def solve(self, repetitions, normIter, mutationIter):
+  def solve(self, repetitions, normIter, mutIter):
     self.procData = self.findBestGreedySolution()
     self.procTimes = [sum(proc) for proc in self.procData]
     for i in range(repetitions):
       if i % normIter == 0:
         self.normalize()
-      elif i % mutationIter == 0:
+      elif i % mutIter == 0:
         self.mutate()
       else:
         try:
@@ -49,7 +49,7 @@ class PCMaxGenetic:
 
     if self.procTimes[l] - self.procTimes[s] <= 1:
       raise OptimumFoundException(self.procTimes[l])
-    
+
     # try to improve score with LPT for 2 proc
     procConcatenated = self.procData[s] + self.procData[l]
     algorithm = PCMaxLPT(procConcatenated, 2)
@@ -62,7 +62,7 @@ class PCMaxGenetic:
         procConcatenated = self.procData[s] + self.procData[l] + self.procData[r]
         algorithm = PCMaxLPT(procConcatenated, 3)
         newData, newCmax = algorithm.solve()
-        
+
         # check if cmax is better
         if newCmax <= cmax:
           self.procData[s] = newData[0]
@@ -76,7 +76,7 @@ class PCMaxGenetic:
       self.procData[l] = newData[1]
       self.procTimes[s] = sum(self.procData[s])
       self.procTimes[l] = sum(self.procData[l])
-  
+
   def mutate(self):
     x = randint(0, self.procNum - 1)
     y = randint(0, self.procNum - 1)
@@ -87,7 +87,7 @@ class PCMaxGenetic:
       t2 = self.procData[y][index2]
       self.procData[x][index1] = t2
       self.procData[y][index2] = t1
-  
+
   def findBestGreedySolution(self):
     greedyAlgorithms = []
     greedyAlgorithms.append(PCMaxLPT(self.execTimes, self.procNum))
@@ -100,7 +100,7 @@ class PCMaxGenetic:
       if cmax < bestCMax or not bestData:
         bestData = data
 
-    return bestData  
+    return bestData
 
   def __del__(self):
     pass

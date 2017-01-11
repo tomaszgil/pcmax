@@ -17,10 +17,10 @@ startTime = time()
 files = ['instances/m50n1000.txt', 'instances/m25.txt', 'instances/m50.txt']
 
 params = [
-  { 'instNum': 3, 'iterNum': 1000, 'mutationsCoeff': 100000, 'normIter': 1 },
-  { 'instNum': 10, 'iterNum': 1000, 'mutationsCoeff': 2000, 'normIter': 2 }
-  # { 'instNum': 10, 'iterNum': 100000, 'mutationsCoeff': 4000, 'normIter': 2 },
-  # { 'instNum': 10, 'iterNum': 100000, 'mutationsCoeff': 8000, 'normIter': 2 },
+  { 'instNum': 3, 'iterNum': 1000, 'mutIter': 100000, 'normIter': 1 },
+  { 'instNum': 10, 'iterNum': 1000, 'mutIter': 2000, 'normIter': 2 }
+  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 4000, 'normIter': 2 },
+  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 8000, 'normIter': 2 },
 ]
 
 # factory for creating all combination between files and params
@@ -32,7 +32,7 @@ for file in files:
 # solving all problems from geneticParams
 for geneticParam in geneticParams:
   results = GeneticSolver(geneticParam).solve()
-  print geneticParam['fileName'] + ' ' + str(geneticParam['mutationsCoeff']) + ":\n      ", results
+  print geneticParam['fileName'] + ' ' + str(geneticParam['mutIter']) + ":\n      ", results
 
 endTime = time()
 
