@@ -12,6 +12,7 @@ class GeneticSolver:
     self.fileName = data['fileName']
     self.instNum = data['instNum']
     self.iterNum = data['iterNum']
+    self.normIter = data['normIter']
     self.mutationsCoeff = data['mutationsCoeff']
 
   def solve(self):
@@ -27,7 +28,7 @@ class GeneticSolver:
     genetics = [PCMaxGenetic(execTimes, procNum) for _ in range(self.instNum)]
     for genetic in genetics:
       try:
-        _, cmax = genetic.solve(self.iterNum, self.mutationsCoeff)
+        _, cmax = genetic.solve(self.iterNum, self.normIter, self.mutationsCoeff)
         times.append(cmax)
       except OptimumFoundException, e:
         times.append(e.cmax)
@@ -37,7 +38,7 @@ class GeneticSolver:
     _, results['LPT'] = PCMaxLPT(execTimes, procNum).solve()
     _, results['Rotate'] = PCMaxRotate(execTimes, procNum).solve()
     results['Genetic'] = min(times)
-    results['GeneticAvg'] = sum(times)/len(times)
+    results['GeneticAvg'] = float(sum(times))/len(times)
     results['GeneticMedian'] = median(times)
     results['GeneticIter'] = len(times)
     

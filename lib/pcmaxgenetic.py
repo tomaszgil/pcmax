@@ -13,11 +13,13 @@ class PCMaxGenetic:
     self.procData = []
     self.procTimes = []
 
-  def solve(self, repetitions, mutationsCoeff = 0.1):
+  def solve(self, repetitions, normIter, mutationIter):
     self.procData = self.findBestGreedySolution()
     self.procTimes = [sum(proc) for proc in self.procData]
     for i in range(repetitions):
-      if i % int(1 / mutationsCoeff) == 0:
+      if i % normIter == 0:
+        self.normalize()
+      elif i % mutationIter == 0:
         self.mutate()
       else:
         try:
@@ -27,21 +29,7 @@ class PCMaxGenetic:
 
     return self.procData, max(self.procTimes)
 
-  def findBestGreedySolution(self):
-    greedyAlgorithms = []
-    greedyAlgorithms.append(PCMaxLPT(self.execTimes, self.procNum))
-    greedyAlgorithms.append(PCMaxRotate(self.execTimes, self.procNum))
-    bestCMax = 0
-    bestData = []
-
-    for algorithm in greedyAlgorithms:
-      data, cmax = algorithm.solve()
-      if cmax < bestCMax or not bestData:
-        bestData = data
-
-    return bestData
-
-  def mutate(self):
+  def normalize(self):
     l = self.procTimes.index(max(self.procTimes)) # index of longest proc
     r = randint(0, len(self.procData) - 1) # index of random proc
     if l != r:
@@ -88,8 +76,31 @@ class PCMaxGenetic:
       self.procData[l] = newData[1]
       self.procTimes[s] = sum(self.procData[s])
       self.procTimes[l] = sum(self.procData[l])
+  
+  def mutate(self):
+    x = randint(0, self.procNum - 1)
+    y = randint(0, self.procNum - 1)
+    if x != y:
+      index1 = randint(0, len(self.procData[x])-1)
+      index2 = randint(0, len(self.procData[y])-1)
+      t1 = self.procData[x][index1]
+      t2 = self.procData[y][index2]
+      self.procData[x][index1] = t2
+      self.procData[y][index2] = t1
+  
+  def findBestGreedySolution(self):
+    greedyAlgorithms = []
+    greedyAlgorithms.append(PCMaxLPT(self.execTimes, self.procNum))
+    greedyAlgorithms.append(PCMaxRotate(self.execTimes, self.procNum))
+    bestCMax = 0
+    bestData = []
 
+    for algorithm in greedyAlgorithms:
+      data, cmax = algorithm.solve()
+      if cmax < bestCMax or not bestData:
+        bestData = data
 
+    return bestData  
 
   def __del__(self):
     pass
