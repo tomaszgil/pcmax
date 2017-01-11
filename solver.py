@@ -15,23 +15,24 @@ startTime = time()
 #   'instances/m50.txt'
 #   ]
 files = ['instances/m50n1000.txt', 'instances/m25.txt', 'instances/m50.txt']
-# factory pattern should be used here - create list of all files and geneticParams combination
+
 params = [
-  { 'instNum': 3, 'iterNum': 100000, 'mutationsCoeff': 100000, 'normIter': 1 },
-  { 'instNum': 10, 'iterNum': 100000, 'mutationsCoeff': 2000, 'normIter': 2 }
+  { 'instNum': 3, 'iterNum': 1000, 'mutationsCoeff': 100000, 'normIter': 1 },
+  { 'instNum': 10, 'iterNum': 1000, 'mutationsCoeff': 2000, 'normIter': 2 }
   # { 'instNum': 10, 'iterNum': 100000, 'mutationsCoeff': 4000, 'normIter': 2 },
   # { 'instNum': 10, 'iterNum': 100000, 'mutationsCoeff': 8000, 'normIter': 2 },
 ]
-geneticParams = {}
+
+# factory for creating all combination between files and params
+geneticParams = []
 for file in files:
   for param in params:
-    geneticParams = param.update({'fileName': file})
+    geneticParams.append(dict(param, **{'fileName':file}))
 
-print geneticParams
-
+# solving all problems from geneticParams
 for geneticParam in geneticParams:
   results = GeneticSolver(geneticParam).solve()
-  print fileName + ' ' + str(geneticParam['mutationsCoeff']) + ":\n      ", results
+  print geneticParam['fileName'] + ' ' + str(geneticParam['mutationsCoeff']) + ":\n      ", results
 
 endTime = time()
 
