@@ -3,6 +3,8 @@ from sys import path
 from time import time
 path.append('lib')
 
+from glob import glob
+
 #import genetic solution wrapper
 from geneticsolver import GeneticSolver
 
@@ -16,11 +18,21 @@ startTime = time()
 #   ]
 files = ['instances/m50n1000.txt', 'instances/m25.txt', 'instances/m50.txt']
 
+# files = ['instances/testing/m10n1000', 'instances/testing/m10n2000', 'instances/testing/m10n3000',
+#     'instances/testing/m10n4000', 'instances/testing/m10n5000', 'instances/testing/m10n6000',
+#     'instances/testing/m10n7000', 'instances/testing/m10n8000', 'instances/testing/m10n9000',
+#     'instances/testing/m10n10000', 'instances/testing/m10n1000', 'instances/testing/m15n1000',
+#     'instances/testing/m20n1000', 'instances/testing/m25n1000', 'instances/testing/m30n1000',
+#     'instances/testing/m35n1000', 'instances/testing/m40n1000', 'instances/testing/m45n1000',
+#     'instances/testing/m50n1000', 'instances/testing/m55n1000']
+
 params = [
-  { 'instNum': 3, 'iterNum': 1000, 'mutIter': 100000, 'normIter': 1 },
-  { 'instNum': 10, 'iterNum': 1000, 'mutIter': 2000, 'normIter': 2 }
-  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 4000, 'normIter': 2 },
-  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 8000, 'normIter': 2 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 2 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 50, 'normIter': 2 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 4 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 50, 'normIter': 4 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 8 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 50, 'normIter': 8 }
 ]
 
 # factory for creating all combination between files and params
