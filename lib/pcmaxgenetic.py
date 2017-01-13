@@ -12,22 +12,25 @@ class PCMaxGenetic:
     self.procNum = procNum
     self.procData = []
     self.procTimes = []
+    self.bestData = []
+    self.cmax = 0
 
   def solve(self, repetitions, normIter, mutIter):
     self.procData = self.findBestGreedySolution()
     self.procTimes = [sum(proc) for proc in self.procData]
+    self.cmax = max(self.procTimes)
     for i in range(repetitions):
-      if i % normIter == 0:
-        self.normalize()
-      elif i % mutIter == 0:
+      if i % mutIter == 0:
         self.mutate()
+      elif i % normIter == 0:
+        self.normalize()
       else:
         try:
           self.swapTasksBetweenProc()
         except OptimumFoundException:
           raise
 
-    return self.procData, max(self.procTimes)
+    return self.bestData, self.cmax
 
   def normalize(self):
     l = self.procTimes.index(max(self.procTimes)) # index of longest proc
@@ -42,6 +45,8 @@ class PCMaxGenetic:
       if currentCMax < max(self.procTimes):
         self.procData[l][tl], self.procData[r][tr] = self.procData[r][tr], self.procData[l][tl]
         self.procTimes = [sum(x) for x in self.procData]
+
+    self.saveResult()
 
   def swapTasksBetweenProc(self):
     s = self.procTimes.index(min(self.procTimes)) # index of shortest proc
@@ -77,6 +82,8 @@ class PCMaxGenetic:
       self.procTimes[s] = sum(self.procData[s])
       self.procTimes[l] = sum(self.procData[l])
 
+    self.saveResult()
+
   def mutate(self):
     x = randint(0, self.procNum - 1)
     y = randint(0, self.procNum - 1)
@@ -87,6 +94,13 @@ class PCMaxGenetic:
       t2 = self.procData[y][index2]
       self.procData[x][index1] = t2
       self.procData[y][index2] = t1
+
+    self.saveResult()
+
+  def saveResult(self):
+    if max(self.procTimes) < self.cmax:
+      self.bestData = self.procData
+      self.cmax = max(self.procTimes)
 
   def findBestGreedySolution(self):
     greedyAlgorithms = []
