@@ -25,4 +25,4 @@ g.setParameters(procNum, taskNum, minExecTime, maxExecTime)
 for i in range(10):
   g.generateOptimumInstance()
   g.save("testing/m" + str(g.procNum) + "n" + str(g.taskNum))
-  g.taskNum = taskNum + i * deltaTask
+  g.taskNum = taskNum + (i+1) * deltaTask
