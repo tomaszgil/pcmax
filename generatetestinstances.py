@@ -16,7 +16,7 @@ g = InstanceGenerator(procNum, taskNum, minExecTime, maxExecTime)
 for _ in range(10):
   g.generateOptimumInstance()
   g.save("testing/m" + str(g.procNum) + "n" + str(g.taskNum))
-  g.procNum += deltaNum
+  g.procNum += deltaProc
 
 g.setParameters(procNum, taskNum, minExecTime, maxExecTime)
 
@@ -24,4 +24,4 @@ g.setParameters(procNum, taskNum, minExecTime, maxExecTime)
 for _ in range(10):
   g.generateOptimumInstance()
   g.save("testing/m" + str(g.procNum) + "n" + str(g.taskNum))
-  g.taskNum += deltaProc
+  g.taskNum += deltaTask
