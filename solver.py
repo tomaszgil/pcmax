@@ -44,7 +44,7 @@ for file in files:
 # solving all problems from geneticParams
 for geneticParam in geneticParams:
   results = GeneticSolver(geneticParam).solve()
-  print geneticParam['fileName'] + ' ' + str(geneticParam['mutIter']) + ":\n      ", results
+  print geneticParam['fileName'] + ' mut: ' + str(geneticParam['mutIter']) + ' norm: ' + str(geneticParam['normIter']) + ":\n      ", results
 
 endTime = time()
 
