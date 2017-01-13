@@ -31,6 +31,7 @@ class InstanceGenerator:
         self.tasks.append(remainingTime)
       self.tasks += processor
     shuffle(self.tasks)
+    self.taskNum = len(self.tasks) 
 
   # Saving to file in instances directory
   # Consecutively: number of processors, number of tasks, execution times, CMax value if known
