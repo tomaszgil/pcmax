@@ -41,6 +41,7 @@ class GeneticSolver:
     results['GeneticAvg'] = float(sum(times))/len(times)
     results['GeneticMedian'] = median(times)
     results['GeneticIter'] = len(times)
+    results['FileName'] = self.fileName
 
 
     return results
