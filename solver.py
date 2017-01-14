@@ -1,9 +1,7 @@
 #append path to access lib classes
 from sys import path
 from time import time
-path.append('lib')
-
-from glob import glob
+from os import listdir
 
 #import genetic solution wrapper
 from geneticsolver import GeneticSolver
@@ -11,13 +9,7 @@ from geneticsolver import GeneticSolver
 
 startTime = time()
 
-files = ['instances/testing/m10n1000', 'instances/testing/m10n2000', 'instances/testing/m10n3000',
-    'instances/testing/m10n4000', 'instances/testing/m10n5000', 'instances/testing/m10n6000',
-    'instances/testing/m10n7000', 'instances/testing/m10n8000', 'instances/testing/m10n9000',
-    'instances/testing/m10n10000', 'instances/testing/m10n1000', 'instances/testing/m15n1000',
-    'instances/testing/m20n1000', 'instances/testing/m25n1000', 'instances/testing/m30n1000',
-    'instances/testing/m35n1000', 'instances/testing/m40n1000', 'instances/testing/m45n1000',
-    'instances/testing/m50n1000', 'instances/testing/m55n1000']
+files = ['instances/testing/' + f for f in listdir('testing')]
 
 params = [
   { 'instNum': 1, 'iterNum': 1000, 'mutIter': 100, 'normIter': 2 }
