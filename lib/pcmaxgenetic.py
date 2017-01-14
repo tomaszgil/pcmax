@@ -41,10 +41,12 @@ class PCMaxGenetic:
 
       currentCMax = max(self.procTimes)
       self.procData[l][tl], self.procData[r][tr] = self.procData[r][tr], self.procData[l][tl]
-      self.procTimes = [sum(x) for x in self.procData]
+      self.procTimes[l] = sum(self.procData[l])
+      self.procTimes[r] = sum(self.procData[r])
       if currentCMax < max(self.procTimes):
         self.procData[l][tl], self.procData[r][tr] = self.procData[r][tr], self.procData[l][tl]
-        self.procTimes = [sum(x) for x in self.procData]
+        self.procTimes[l] = sum(self.procData[l])
+        self.procTimes[r] = sum(self.procData[r])
 
     self.saveResult()
 
@@ -94,6 +96,8 @@ class PCMaxGenetic:
       t2 = self.procData[y][index2]
       self.procData[x][index1] = t2
       self.procData[y][index2] = t1
+      self.procTimes[x] = sum(self.procData[x])
+      self.procTimes[y] = sum(self.procData[y])
 
     self.saveResult()
 
