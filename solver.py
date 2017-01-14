@@ -34,7 +34,7 @@ for file in files:
 # solving all problems from geneticParams
 
 header = ['Rotate', 'GeneticAvg', 'LPT', 'GeneticIter', 'GeneticMedian', 'FileName', 'Genetic', 'Optimum', 'mutIter', 'normIter', 'iterNum']
-f = open('results.csv', 'w')
+f = open('results3.csv', 'w')
 f.write(','.join(header) + "\n")
 print ','.join(header)
 
