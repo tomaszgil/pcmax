@@ -13,12 +13,16 @@ startTime = time()
 files = ['instances/testing/' + str(f) for f in listdir('instances/testing')]
 
 params = [
-  { 'instNum': 1, 'iterNum': 1000, 'mutIter': 100, 'normIter': 2 }
-  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 50, 'normIter': 2 },
-  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 4 },
-  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 50, 'normIter': 4 },
-  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 8 },
-  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 50, 'normIter': 8 }
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 1 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 2 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 4 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 8 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 16 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 64, 'normIter': 2 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 128, 'normIter': 2 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 256, 'normIter': 2 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 512, 'normIter': 2 },
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 1024, 'normIter': 2 },
 ]
 
 # factory for creating all combination between files and params
@@ -32,6 +36,7 @@ for file in files:
 header = ['Rotate', 'GeneticAvg', 'LPT', 'GeneticIter', 'GeneticMedian', 'FileName', 'Genetic', 'Optimum']
 f = open('results.csv', 'w')
 f.write(','.join(header) + "\n")
+print ','.join(header)
 
 for geneticParam in geneticParams:
   results = GeneticSolver(geneticParam).solve()
@@ -41,6 +46,7 @@ for geneticParam in geneticParams:
   for k in header:
     line.append(str(results[k]))
   f.write(','.join(line) + "\n")
+  print ','.join(line)
 
 endTime = time()
 
