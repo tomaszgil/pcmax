@@ -33,13 +33,17 @@ for file in files:
 
 # solving all problems from geneticParams
 
-header = ['Rotate', 'GeneticAvg', 'LPT', 'GeneticIter', 'GeneticMedian', 'FileName', 'Genetic', 'Optimum']
+header = ['Rotate', 'GeneticAvg', 'LPT', 'GeneticIter', 'GeneticMedian', 'FileName', 'Genetic', 'Optimum', 'mutIter', 'normIter', 'iterNum']
 f = open('results.csv', 'w')
 f.write(','.join(header) + "\n")
 print ','.join(header)
 
 for geneticParam in geneticParams:
   results = GeneticSolver(geneticParam).solve()
+  results['mutIter'] = geneticParam['mutIter']
+  results['normIter'] = geneticParam['normIter']
+  results['iterNum'] = geneticParam['iterNum']
+  
   #print geneticParam['fileName'] + ' mut: ' + str(geneticParam['mutIter']) + ' norm: ' + str(geneticParam['normIter']) + ":\n      ", results
   
   line = []
