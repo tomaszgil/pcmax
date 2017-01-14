@@ -2,6 +2,7 @@
 from sys import path
 from time import time
 from os import listdir
+path.append('lib')
 
 #import genetic solution wrapper
 from geneticsolver import GeneticSolver
@@ -9,7 +10,7 @@ from geneticsolver import GeneticSolver
 
 startTime = time()
 
-files = ['instances/testing/' + f for f in listdir('testing')]
+files = ['instances/testing/' + str(f) for f in listdir('instances/testing')]
 
 params = [
   { 'instNum': 1, 'iterNum': 1000, 'mutIter': 100, 'normIter': 2 }
