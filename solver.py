@@ -16,23 +16,23 @@ startTime = time()
 #   'instances/instance.txt', 'instances/test.txt', 'instances/optimum-instance',
 #   'instances/m50.txt'
 #   ]
-files = ['instances/m50n1000.txt', 'instances/m25.txt', 'instances/m50.txt']
+# files = ['instances/m50n1000.txt', 'instances/m25.txt', 'instances/m50.txt']
 
-# files = ['instances/testing/m10n1000', 'instances/testing/m10n2000', 'instances/testing/m10n3000',
-#     'instances/testing/m10n4000', 'instances/testing/m10n5000', 'instances/testing/m10n6000',
-#     'instances/testing/m10n7000', 'instances/testing/m10n8000', 'instances/testing/m10n9000',
-#     'instances/testing/m10n10000', 'instances/testing/m10n1000', 'instances/testing/m15n1000',
-#     'instances/testing/m20n1000', 'instances/testing/m25n1000', 'instances/testing/m30n1000',
-#     'instances/testing/m35n1000', 'instances/testing/m40n1000', 'instances/testing/m45n1000',
-#     'instances/testing/m50n1000', 'instances/testing/m55n1000']
+files = ['instances/testing/m10n1000', 'instances/testing/m10n2000', 'instances/testing/m10n3000',
+    'instances/testing/m10n4000', 'instances/testing/m10n5000', 'instances/testing/m10n6000',
+    'instances/testing/m10n7000', 'instances/testing/m10n8000', 'instances/testing/m10n9000',
+    'instances/testing/m10n10000', 'instances/testing/m10n1000', 'instances/testing/m15n1000',
+    'instances/testing/m20n1000', 'instances/testing/m25n1000', 'instances/testing/m30n1000',
+    'instances/testing/m35n1000', 'instances/testing/m40n1000', 'instances/testing/m45n1000',
+    'instances/testing/m50n1000', 'instances/testing/m55n1000']
 
 params = [
-  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 2 },
-  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 50, 'normIter': 2 },
-  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 4 },
-  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 50, 'normIter': 4 },
-  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 8 },
-  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 50, 'normIter': 8 }
+  { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 2 }
+  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 50, 'normIter': 2 },
+  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 4 },
+  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 50, 'normIter': 4 },
+  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 100, 'normIter': 8 },
+  # { 'instNum': 10, 'iterNum': 100000, 'mutIter': 50, 'normIter': 8 }
 ]
 
 # factory for creating all combination between files and params

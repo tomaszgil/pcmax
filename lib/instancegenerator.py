@@ -1,18 +1,23 @@
 from random import randint, shuffle
 from pcmaxlpt import PCMaxLPT
+from pcmaxrotate import PCMaxRotate
+from pcmaxdummy import PCMaxDummy
 
 
 class InstanceGenerator:
   def __init__(self, procNum, taskNum, minExecTime, maxExecTime):
     self.setParameters(procNum, taskNum, minExecTime, maxExecTime)
-    self.tasks = []
-    self.cmax = 0
+    self.reset()
 
   def setParameters(self, procNum, taskNum, minExecTime, maxExecTime):
     self.procNum = procNum
     self.taskNum = taskNum
     self.minExecTime = minExecTime if minExecTime > 0 else 1
     self.maxExecTime = maxExecTime if maxExecTime > 0 else 1
+
+  def reset(self):
+    self.tasks = []
+    self.cmax = 0
 
   def generateInstance(self):
     self.tasks = [randint(1, self.maxExecTime) for _ in range(self.taskNum)]
@@ -21,8 +26,8 @@ class InstanceGenerator:
 
   def generateOptimumInstance(self):
     randomTaskNum = self.taskNum - self.procNum
-    randomTasks = [randint(1, self.maxExecTime) for _ in range(randomTaskNum)]
-    algorithm = PCMaxLPT(randomTasks, self.procNum)
+    randomTasks = [randint(self.minExecTime, self.maxExecTime) for _ in range(randomTaskNum)]
+    algorithm = PCMaxDummy(randomTasks, self.procNum)
     processorsData, self.cmax = algorithm.solve()
     self.tasks = []
     for processor in processorsData:
@@ -31,7 +36,7 @@ class InstanceGenerator:
         self.tasks.append(remainingTime)
       self.tasks += processor
     shuffle(self.tasks)
-    self.taskNum = len(self.tasks) 
+    self.taskNum = len(self.tasks)
 
   # Saving to file in instances directory
   # Consecutively: number of processors, number of tasks, execution times, CMax value if known
