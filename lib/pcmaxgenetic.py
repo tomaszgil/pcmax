@@ -104,7 +104,7 @@ class PCMaxGenetic:
   def saveResult(self):
     if max(self.procTimes) < self.cmax:
       self.bestData = self.procData
-      self.cmax = max([sum(x) for x in self.bestData])
+      self.cmax = max(self.procTimes)
 
   def findBestGreedySolution(self):
     greedyAlgorithms = []
