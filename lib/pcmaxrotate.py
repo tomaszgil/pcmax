@@ -42,8 +42,3 @@ class PCMaxRotate:
 
     cmax = max([sum(processor) for processor in processorsData])
     return processorsData, cmax
-
-
-x = PCMaxRotate([6,7,7,10,5,21,52,20,1,2,3],4)
-solution, cmax = x.solve()
-print solution, cmax

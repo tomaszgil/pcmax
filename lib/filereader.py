@@ -1,4 +1,4 @@
-class DataStruct:
+class FileReader:
   def __init__(self, fileName):
     self.file = open(fileName, 'r')
  
